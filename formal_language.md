@@ -16,6 +16,8 @@
 
 记，$\Sigma^{*} = \Sigma^{0}  \cup  \Sigma^{1} \cup  \Sigma^{2}  \cup \cdots$ 。则，$\Sigma^{*}$ 为字母表 $\Sigma$ 上所有字符串所组成的集合，也即，$\Sigma$ 的 Kleene 闭包。
 
+另，记，$\Sigma^{+} = \Sigma^{1} \cup  \Sigma^{2}  \cup \cdots$ 
+
 字母表上的 ***语言***（记为 $L$），是 $\Sigma^{*}$ 的任意子集。
 
 需要注意的是，$\Sigma^{*}$ 的空子集 $\emptyset$ 与 $\Sigma^{0}$（即，$\epsilon$） 是 两种不同的语言。
