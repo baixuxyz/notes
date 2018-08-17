@@ -1,6 +1,6 @@
 ---
 title: 形式文法
-updated: {{ date }}
+updated: 2018-08-10
 date: 2018-08-03
 
 tags:

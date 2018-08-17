@@ -1,9 +1,14 @@
 ---
-title: 自动机（待续。。。）
+title: 自动机（未完。。。）
 date: 2018-08-08
 updated: {{ date }}
 tags:
   - 自动机
+
+keywords:
+  - DFA
+  - NFA
+  - 子集构造法
 
 categories: 
   - theory
@@ -112,33 +117,64 @@ $\exists \; q_0, q_1 \in Q, a \in \Sigma$，使得 $q_0 = q_1 \rightarrow  \delt
 
 
 
-确定有限自动机 $M_{DFA}$、非确定有限自动机 $M_{NFA}$、有 $\epsilon$ 转移的非确定有限自动机 $M_{NFA-\epsilon}$ 之间的等价性（自）：
+#### 构造 DFA
 
-1. 有限自动机与非确定有限自动机的等价性：
-
-   1. 对于任意 $M_{DFA}$，存在 $M_{NFA}$，使得 $L(M_{DFA}) = L(M_{NFA})$。
-   2. 对于任意 $M_{NFA}$，存在 $M_{DFA}$，使得 $L(M_{NFA}) = L(M_{DFA})$。
-
-2. 非确定有限自动机与有 $\epsilon$ 转移的非确定有限自动机的等价性：
-
-   1. 对于任意 $M_{NFA}$，存在 $M_{NFA-\epsilon}$，使得 $L(M_{NFA}) = L(M_{NFA-\epsilon})$。
-   2. 对于任意 $M_{NFA-\epsilon}$，存在 $M_{NFA}$，使得 $L(M_{NFA-\epsilon}) = L(M_{NFA})$。
-
-3. 有限自动机与有 $\epsilon$ 转移的非确定有限自动机的等价性：
-
-   1. 对于任意 $M_{DFA}$，存在 $M_{NFA-\epsilon}$，使得 $L(M_{DFA}) = L(M_{NFA-\epsilon})$。
-   2. 对于任意 $M_{NFA-\epsilon}$，存在 $M_{DFA}$，使得 $L(M_{NFA-\epsilon}) = L(M_{DFA})$。
+有 $\epsilon$ 转移的非确定有限自动机 $\mathcal  {NFA- \epsilon \; M_1} (Q, \Sigma \cup \{ \epsilon \}, \delta, s, F)$，**利用幂集构造，通过消除 $\epsilon$ 转移，消除转移函数的不确定性**，可以构造出接收 $L(NFA - \epsilon \; M_1)$ 语言的确定有限自动机 $\mathcal DFA \; M_2(Q^{\prime}, \Sigma, \delta^{\prime}, s^{\prime}, F^{\prime})$。
 
 
 
+闭包函数 $\epsilon - closure(q)$，定义了状态集 $ \{p | p = \widehat\delta(q, \epsilon^*) \}$，$q \in \Sigma$。即，从状态 $q$ 开始，所有通过一次或多次 $\epsilon$ 转移可以达到的状态的集合。
 
-（自）$M_{DFA}$、 $M_{NFA}$、$M_{NFA-\epsilon}$ 任意两个自动机之间的等价关系得证，则三个自动机之间的等价关系得证（传递性）。
+
+
+$\mathcal DFA \; M_2(Q^{\prime}, \Sigma, \delta^{\prime}, s^{\prime}, F^{\prime})$ 定义如下：
+
+- $Q' = \mathcal {P}(Q)$。即，$Q'$ 是 $Q$ 的幂集。
+- $\Sigma$。
+- $\delta'(q', a) = \bigcup\limits_{q_i \in q'} \epsilon - closure (\delta(q_i, a) )$，$\forall \; q' \in Q', \forall \; a \in \Sigma$。
+- $s' = \epsilon - closure(s)$。
+- $F' = \{ q' | q' \in Q' \land q' \cap F \neq  \varnothing \}$。
+
+
+
+（自）从 $s'$ 开始，实际是一个递归构造的过程。
+
+$\mathcal DFA \; M$ 的状态集 $Q^\prime$ 及状态函数 $\delta^{\prime}: Q^\prime \times \Sigma$ 递归地构造为：
+
+1. $s^\prime \in Q^\prime$，即，$\epsilon - closure(s) \in Q'$。
+2. 对于所有 $a \in \Sigma, q' \in Q'$，若 $\delta'(q',a) = p'$ 存在，则  $p'$ 为，$\bigcup\limits_{q_i \in q'} \epsilon - closure ( \delta(q_i, a) )$，且 $p' \in Q'$ 。
+   注：根据定义，$q' \subset Q$，$p' \subset Q$。
+3. 除此之外别无其他。
+
+
+
+#### 自动机的等价性
+
+
+确定有限自动机 $M_{DFA}$、非确定有限自动机 $M_{NFA}$、有 $\epsilon$ 转移的非确定有限自动机 $M_{NFA-\epsilon}$ 之间的***等价性***（自），存在以下命题：
+
+1. 有限自动机与非确定有限自动机的等价性：  
+   1.1. 对于任意 $M_{DFA}$，存在 $M_{NFA}$，使得 $L(M_{DFA}) \subset  L(M_{NFA})$。  
+   1.2. 对于任意 $M_{NFA}$，存在 $M_{DFA}$，使得 $L(M_{NFA}) \subset  L(M_{DFA})$。
+2. 非确定有限自动机与有 $\epsilon$ 转移的非确定有限自动机的等价性：  
+   2.1. 对于任意 $M_{NFA}$，存在 $M_{NFA-\epsilon}$，使得 $L(M_{NFA})  \subset L(M_{NFA-\epsilon})$。  
+   2.2. 对于任意 $M_{NFA-\epsilon}$，存在 $M_{NFA}$，使得 $L(M_{NFA-\epsilon}) \subset  L(M_{NFA})$。
+3. 有 $\epsilon$ 转移的非确定有限自动机与有限自动机的等价性：  
+   3.1. 对于任意 $M_{NFA-\epsilon}$，存在 $M_{DFA}$，使得 $L(M_{NFA-\epsilon}) \subset L(M_{DFA})$。  
+   3.2. 对于任意 $M_{DFA}$，存在 $M_{NFA-\epsilon}$，使得 $L(M_{DFA}) \subset L(M_{NFA-\epsilon})$。
+
+
+
+（自）将上述命题分成两组：1.1、2.1、3.1；1.2、2.2、3.2。任意一组得证，则三者之间的等价性得证。(待说明)
 
 
 
 由定义可知，$DFA$ 是 $NFA$ 的特殊情形，$NFA$ 是 $NFA-\epsilon$ 的特殊情形。
 
-所以，可得 1.1、2.1、3.1。
+所以，可得 1.1、2.1。
+
+
+
 
 待续。。。
 
